@@ -1,0 +1,8 @@
+{
+    "homepage": "https://github.com/rabbitmq/rabbitmq-server",
+    "maintainers": [],
+    "versions": [
+        "3.10.6"
+    ],
+    "yanked_versions": {}
+}

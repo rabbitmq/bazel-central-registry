@@ -1,0 +1,5 @@
+{
+    "integrity": "sha256-Zb3OhveT8nHWWDeVYwxAINeM8AchWF2biHWVflG/H4c=",
+    "strip_prefix": "rabbitmq-server-3.10.6",
+    "url": "https://github.com/rabbitmq/rabbitmq-server/archive/refs/tags/v3.10.6.zip"
+}
