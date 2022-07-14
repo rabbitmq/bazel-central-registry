@@ -1,0 +1,5 @@
+{
+    "integrity": "sha256-Su7joKwPBDubbQ74kiZL9PrwtYHwqgdd1Rajkg/XvcM=",
+    "strip_prefix": "rules_erlang-3.3.0",
+    "url": "https://github.com/rabbitmq/rules_erlang/archive/refs/tags/3.3.0.zip"
+}
