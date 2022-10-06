@@ -1,0 +1,8 @@
+{
+    "integrity": "sha256-EbGMIgvMLqtjtUcMA47xDrZ4O8sfzbEapBN976WsG7g=",
+    "patch_strip": 0,
+    "patches": {
+        "add_build_file.patch": "sha256-C386OyDpcpK+PHV5bcQj9LwE4XbeqpWTLGa6IQq1pUs="
+    },
+    "url": "https://repo.hex.pm/tarballs/accept-0.3.5.tar"
+}
