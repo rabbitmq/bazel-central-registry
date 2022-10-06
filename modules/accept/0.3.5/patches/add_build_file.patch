@@ -1,6 +1,6 @@
 --- /dev/null
 +++ BUILD.bazel
-@@ -0,0 +1,74 @@
+@@ -0,0 +1,75 @@
 +load("@rules_erlang//:untar.bzl", "untar")
 +load("@rules_erlang//:app_file.bzl", "app_file")
 +load("@rules_erlang//:erlang_bytecode.bzl", "erlang_bytecode")
@@ -74,4 +74,5 @@
 +alias(
 +    name = "erlang_app",
 +    actual = ":accept",
++    visibility = ["//visibility:public"],
 +)
