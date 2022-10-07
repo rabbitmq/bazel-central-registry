@@ -56,6 +56,8 @@ def select(files_tree, ks):
     # print("SELECT", files_tree, ks)
     assert len(ks) > 0
     e = existing(files_tree, ks[0])
+    if e == None:
+        return []
     # print("found", e)
     if len(ks) == 1:
         return [e]
