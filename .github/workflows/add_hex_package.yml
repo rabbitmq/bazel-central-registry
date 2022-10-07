@@ -1,0 +1,126 @@
+name: Add Hex.pm Package
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: The name of the package on hex.pm
+        required: true
+      verson:
+        description: The package version
+        required: true
+jobs:
+  generate-pr:
+    runs-on: ubuntu-latest
+    env:
+      NAME: ${{ github.event.inputs.name }}
+      VERSION: ${{ github.event.inputs.version }}
+      NAME_DASH_VERSION: ${{ github.event.inputs.name }}-${{ github.event.inputs.version }}
+    steps:
+    - name: CHECKOUT
+      uses: actions/checkout@v3
+      with:
+        path: bazel-central-registry
+
+    - name: SKIP IF THE PR ALREADY EXISTS
+      id: check-for-branch
+      working-directory: bazel-central-registry
+      run: |
+        set +e
+        git ls-remote --exit-code --heads origin add-${NAME_DASH_VERSION}
+        echo "::set-output name=c::$?"
+
+    - name: FETCH AND EXTRACT PACKAGE
+      run: |
+        curl -LO https://repo.hex.pm/tarballs/${NAME_DASH_VERSION}.tar
+        mkdir ${NAME_DASH_VERSION}
+        tar -x -f ${NAME_DASH_VERSION}.tar -d ${NAME_DASH_VERSION}
+        rm ${NAME_DASH_VERSION}.tar
+
+    - name: GENERATE BAZEL FILES
+      working-directory: ${NAME_DASH_VERSION}
+      run: |
+        ERLANG_TOOLS_DIR=${{ github.workspace }}/bazel-central-registry/erlang_tools
+
+        ${ERLANG_TOOLS_DIR}/hex_metadata_to_json \
+          metadata.config > metadata.json
+
+        cp ${ERLANG_TOOLS_DIR}/WORKSPACE.tpl \
+          WORKSPACE
+
+        cat << EOF > MODULE.bazel
+        module(
+            name = "${NAME}",
+            version = "${VERSION}",
+            compatibility_level = 1,
+        )
+
+        bazel_dep(
+            name = "rules_erlang",
+            version = "3.8.0",
+        )
+        EOF
+
+        python3 ${ERLANG_TOOLS_DIR}/gen_build_file.py \
+          metadata.json > BUILD.bazel
+
+        sudo npm install --global --silent @bazel/buildifier
+        buildifier WORKSPACE MODULE.bazel BUILD.bazel
+
+        cat BUILD.bazel
+
+    - name: ADD MODULE
+      working-directory: bazel-central-registry
+      run: |
+        NAME=${{ github.event.inputs.name }}
+        VERSION=${{ github.event.inputs.version }}
+        cat << EOF > ${NAME_DASH_VERSION}.json
+        {
+            "build_file": "../${NAME_DASH_VERSION}/BUILD.bazel",
+            "build_targets": [
+                "@${NAME}//:${NAME}",
+                "@${NAME}//:erlang_app"
+            ],
+            "compatibility_level": "1",
+            "deps": [],
+            "module_dot_bazel": "../${NAME_DASH_VERSION}/MODULE.bazel",
+            "name": "${NAME}",
+            "patch_strip": 0,
+            "patches": [],
+            "presubmit_yml": null,
+            "strip_prefix": null,
+            "test_module_build_targets": [],
+            "test_module_path": null,
+            "test_module_test_targets": [],
+            "url": "https://repo.hex.pm/tarballs/${NAME_DASH_VERSION}.tar",
+            "version": "${VERSION}"
+        }
+        EOF
+
+        python3 ./tools/add_module.py \
+          --input=${NAME_DASH_VERSION}.json
+
+    - name: SAVE ARTIFACT
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${NAME_DASH_VERSION}
+        path: |
+          ${NAME_DASH_VERSION}
+          bazel-central-registry/${NAME_DASH_VERSION}.json
+
+    #! - name: CREATE PULL REQUEST
+    #!   if: steps.check-for-branch.outputs.c != 0
+    #!   uses: peter-evans/create-pull-request@v4.1.3
+    #!   with:
+    #!     path: bazel-central-registry
+    #!     committer: GitHub <noreply@github.com>
+    #!     author: GitHub <noreply@github.com>
+    #!     title: Add ${NAME_DASH_VERSION}
+    #!     body: >
+    #!        Automated changes created by
+    #!        ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    #!        using the [create-pull-request](https://github.com/peter-evans/create-pull-request)
+    #!        GitHub action in the ${{ github.workflow }} workflow.
+    #!     commit-message: |
+    #!       Add ${NAME_DASH_VERSION}
+    #!     branch: add-${NAME_DASH_VERSION}
+    #!     delete-branch: true
