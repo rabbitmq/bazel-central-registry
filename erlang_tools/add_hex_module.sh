@@ -4,11 +4,10 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 set -euxo pipefail
 
-# set NAME and VERSION in env
+# set NAME, VERSION and WORKDIR in env
 NAME_DASH_VERSION=${NAME}-${VERSION}
 
-WORKDIR="$(mktemp -d)"
-
+mkdir -p ${WORKDIR}
 cd ${WORKDIR}
 curl -LO https://repo.hex.pm/tarballs/${NAME_DASH_VERSION}.tar
 mkdir ${NAME_DASH_VERSION}
