@@ -38,6 +38,8 @@ python3 ${SCRIPT_DIR}/gen_build_file.py \
 
 buildifier WORKSPACE MODULE.bazel BUILD.bazel
 
+bazel build //...
+
 cd ${SCRIPT_DIR}/..
 
 cat << EOF > ${NAME_DASH_VERSION}.json

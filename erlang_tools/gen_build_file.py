@@ -9,7 +9,6 @@ load("@rules_erlang//:erlang_app_info.bzl", "erlang_app_info")
 """
 
 def existing(contents, name):
-    # print("existing", contents, name)
     for item in contents:
         if isinstance(item, str):
             if item == name:
@@ -19,7 +18,6 @@ def existing(contents, name):
                 return item
 
 def tree_insert(files_tree, components):
-    # print("tree_insert", files_tree, components)
     assert len(components) > 0
     if len(components) == 1:
         if existing(files_tree, components[0]) == None:
@@ -39,7 +37,6 @@ def as_tree(tar_entries):
     return files_tree
 
 def as_list(files_tree, files, parent):
-    # print("as_list", files_tree, files, parent)
     for item in files_tree:
         if isinstance(item, str):
             if parent != None:
@@ -53,24 +50,14 @@ def as_list(files_tree, files, parent):
                 as_list(item[1], files, item[0])
 
 def select(files_tree, ks):
-    # print("SELECT", files_tree, ks)
     assert len(ks) > 0
     e = existing(files_tree, ks[0])
     if e == None:
         return []
-    # print("found", e)
     if len(ks) == 1:
         return [e]
     else:
         return [(ks[0], select([ks[1]], ks[1:]))]
-
-# def select_file(files_tree, ks, name):
-#     return None
-
-# def child(files_tree_selection):
-#     print(files_tree_selection)
-#     for item in files_tree_selection.values():
-#         return item
 
 def untar_rule(files_tree):
     files = []
@@ -79,6 +66,7 @@ def untar_rule(files_tree):
     return """\
 untar(
     name = "contents",
+    archive = "contents.tar.gz",
     outs = {},
 )
 """.format(files)
@@ -86,9 +74,6 @@ untar(
 def erlang_bytecode_rule(files_tree):
     include = select(files_tree, ["include"])
     src = select(files_tree, ["src"])
-
-    # print("include", include)
-    # print("src", src)
 
     hdrs = []
     as_list(include, hdrs, None)
@@ -116,8 +101,6 @@ erlang_bytecode(
 )
 
 def app_file_rule(name, version, description, files_tree):
-    # print("files_tree", files_tree)
-    # print(select(files_tree, ["src", name + ".app.src"]))
     app_src = []
     as_list(
         select(files_tree, ["src", name + ".app.src"]),
