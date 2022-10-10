@@ -9,10 +9,14 @@ NAME_DASH_VERSION=${NAME}-${VERSION}
 
 mkdir -p ${WORKDIR}
 cd ${WORKDIR}
-curl -LO https://repo.hex.pm/tarballs/${NAME_DASH_VERSION}.tar
-mkdir ${NAME_DASH_VERSION}
+if [[ ! -f ${NAME_DASH_VERSION}.tar ]]; then
+    curl -LO https://repo.hex.pm/tarballs/${NAME_DASH_VERSION}.tar
+fi
+mkdir -p ${NAME_DASH_VERSION}
 cd ${NAME_DASH_VERSION}
-tar -xf ../${NAME_DASH_VERSION}.tar
+if [[ ! -f VERSION ]]; then
+    tar -xf ../${NAME_DASH_VERSION}.tar
+fi
 
 ${SCRIPT_DIR}/hex_metadata_to_json \
     metadata.config > metadata.json
