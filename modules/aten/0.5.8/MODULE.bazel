@@ -1,0 +1,10 @@
+module(
+    name = "aten",
+    version = "0.5.8",
+    compatibility_level = 1,
+)
+
+bazel_dep(
+    name = "rules_erlang",
+    version = "3.8.0",
+)
