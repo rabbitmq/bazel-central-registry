@@ -42,7 +42,8 @@ python3 ${SCRIPT_DIR}/gen_build_file.py \
 
 buildifier WORKSPACE MODULE.bazel BUILD.bazel
 
-bazel build //...
+bazel build //... \
+    --experimental_enable_bzlmod
 
 cd ${SCRIPT_DIR}/..
 
