@@ -21,10 +21,13 @@ fi
 ${SCRIPT_DIR}/hex_metadata_to_json \
     metadata.config > metadata.json
 
-cp ${SCRIPT_DIR}/WORKSPACE.tpl \
-    WORKSPACE
+if [[ ! -f WORKSPACE ]]; then
+    cp ${SCRIPT_DIR}/WORKSPACE.tpl \
+        WORKSPACE
+fi
 
-cat << EOF > MODULE.bazel
+if [[ ! -f MODULE.bazel ]]; then
+    cat << EOF > MODULE.bazel
 module(
     name = "${NAME}",
     version = "${VERSION}",
@@ -36,9 +39,12 @@ bazel_dep(
     version = "3.8.0",
 )
 EOF
+fi
 
-python3 ${SCRIPT_DIR}/gen_build_file.py \
-    metadata.json > BUILD.bazel
+if [[ ! -f BUILD.bazel ]]; then
+    python3 ${SCRIPT_DIR}/gen_build_file.py \
+        metadata.json > BUILD.bazel
+fi
 
 buildifier WORKSPACE MODULE.bazel BUILD.bazel
 
