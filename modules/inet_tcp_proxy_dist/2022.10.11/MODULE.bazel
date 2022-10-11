@@ -1,6 +1,6 @@
 module(
     name = "inet_tcp_proxy_dist",
-    version = "0.1.0",
+    version = "2022.10.11",
     compatibility_level = 1,
 )
 
