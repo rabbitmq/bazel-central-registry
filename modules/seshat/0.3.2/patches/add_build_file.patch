@@ -1,0 +1,82 @@
+--- /dev/null
++++ BUILD.bazel
+@@ -0,0 +1,79 @@
++load("@rules_erlang//:untar.bzl", "untar")
++load("@rules_erlang//:app_file.bzl", "app_file")
++load("@rules_erlang//:erlang_bytecode.bzl", "erlang_bytecode")
++load("@rules_erlang//:erlang_app_info.bzl", "erlang_app_info")
++
++untar(
++    name = "contents",
++    outs = [
++        "LICENSE",
++        "LICENSE-APACHE2",
++        "LICENSE-MPL-RabbitMQ",
++        "README.md",
++        "rebar.config",
++        "rebar.lock",
++        "src/seshat.app.src",
++        "src/seshat.erl",
++        "src/seshat_app.erl",
++        "src/seshat_counters_server.erl",
++        "src/seshat_sup.erl",
++    ],
++    archive = "contents.tar.gz",
++)
++
++erlang_bytecode(
++    name = "beam_files",
++    srcs = [
++        "src/seshat.erl",
++        "src/seshat_app.erl",
++        "src/seshat_counters_server.erl",
++        "src/seshat_sup.erl",
++    ],
++    hdrs = [],
++    dest = "ebin",
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": ["+debug_info"],
++        "//conditions:default": [
++            "+deterministic",
++            "+debug_info",
++        ],
++    }),
++)
++
++app_file(
++    name = "app_file",
++    app_description = "Counters registry",
++    app_name = "seshat",
++    app_src = ["src/seshat.app.src"],
++    app_version = "0.3.2",
++    dest = "ebin",
++    modules = [":beam_files"],
++    stamp = 0,
++)
++
++erlang_app_info(
++    name = "seshat",
++    srcs = [
++        "src/seshat.app.src",
++        "src/seshat.erl",
++        "src/seshat_app.erl",
++        "src/seshat_counters_server.erl",
++        "src/seshat_sup.erl",
++    ],
++    hdrs = [],
++    app = ":app_file",
++    app_name = "seshat",
++    beam = [":beam_files"],
++    license_files = [
++        "LICENSE",
++        "LICENSE-APACHE2",
++        "LICENSE-MPL-RabbitMQ",
++    ],
++    visibility = ["//visibility:public"],
++)
++
++alias(
++    name = "erlang_app",
++    actual = ":seshat",
++    visibility = ["//visibility:public"],
++)
