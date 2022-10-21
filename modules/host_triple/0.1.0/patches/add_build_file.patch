@@ -1,0 +1,74 @@
+--- /dev/null
++++ BUILD.bazel
+@@ -0,0 +1,71 @@
++load("@rules_erlang//:untar.bzl", "untar")
++load("@rules_erlang//:app_file.bzl", "app_file")
++load("@rules_erlang//:erlang_bytecode.bzl", "erlang_bytecode")
++load("@rules_erlang//:erlang_app_info.bzl", "erlang_app_info")
++
++untar(
++    name = "contents",
++    outs = [
++        "LICENSE",
++        "LICENSE-APACHE2",
++        "LICENSE-MPL",
++        "README.md",
++        "include/code_loading.hrl",
++        "rebar.config",
++        "rebar.config.script",
++        "rebar.lock",
++        "src/host_triple.app.src",
++        "src/host_triple.erl",
++    ],
++    archive = "contents.tar.gz",
++)
++
++erlang_bytecode(
++    name = "beam_files",
++    srcs = ["src/host_triple.erl"],
++    hdrs = ["include/code_loading.hrl"],
++    dest = "ebin",
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": ["+debug_info"],
++        "//conditions:default": [
++            "+deterministic",
++            "+debug_info",
++        ],
++    }),
++)
++
++app_file(
++    name = "app_file",
++    app_description = "A library that produces uniform host triples",
++    app_name = "host_triple",
++    app_src = ["src/host_triple.app.src"],
++    app_version = "0.1.0",
++    dest = "ebin",
++    modules = [":beam_files"],
++    stamp = 0,
++)
++
++erlang_app_info(
++    name = "host_triple",
++    srcs = [
++        "include/code_loading.hrl",
++        "src/host_triple.app.src",
++        "src/host_triple.erl",
++    ],
++    hdrs = ["include/code_loading.hrl"],
++    app = ":app_file",
++    app_name = "host_triple",
++    beam = [":beam_files"],
++    license_files = [
++        "LICENSE",
++        "LICENSE-APACHE2",
++        "LICENSE-MPL",
++    ],
++    visibility = ["//visibility:public"],
++)
++
++alias(
++    name = "erlang_app",
++    actual = ":host_triple",
++    visibility = ["//visibility:public"],
++)

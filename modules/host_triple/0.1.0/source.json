@@ -1,0 +1,8 @@
+{
+    "integrity": "sha256-Jv7jlqfA4dZhFedGOKeVNmSWtZvxP0dPOuHESR/RT8U=",
+    "patch_strip": 0,
+    "patches": {
+        "add_build_file.patch": "sha256-5FvAzK3riiy/7JKII/M6tM4gAzTUn4o09X7OcbYqcwA="
+    },
+    "url": "https://repo.hex.pm/tarballs/host_triple-0.1.0.tar"
+}
