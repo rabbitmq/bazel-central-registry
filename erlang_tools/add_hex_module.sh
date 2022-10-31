@@ -18,9 +18,6 @@ if [[ ! -f VERSION ]]; then
     tar -xf ../${NAME_DASH_VERSION}.tar
 fi
 
-${SCRIPT_DIR}/hex_metadata_to_json \
-    metadata.config > metadata.json
-
 if [[ ! -f WORKSPACE ]]; then
     cp ${SCRIPT_DIR}/WORKSPACE.tpl \
         WORKSPACE
@@ -41,10 +38,10 @@ bazel_dep(
 EOF
 fi
 
-if [[ ! -f BUILD.bazel ]]; then
-    python3 ${SCRIPT_DIR}/gen_build_file.py \
-        metadata.json > BUILD.bazel
-fi
+cd ${SCRIPT_DIR}/..
+bazel run //:gazelle ${WORKDIR}/${NAME_DASH_VERSION}
+
+cd ${WORKDIR}/${NAME_DASH_VERSION}
 
 buildifier WORKSPACE MODULE.bazel BUILD.bazel
 

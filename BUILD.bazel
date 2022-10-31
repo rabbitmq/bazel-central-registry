@@ -1,0 +1,11 @@
+load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@rules_erlang//gazelle:def.bzl", "GAZELLE_ERLANG_RUNTIME_DEPS")
+
+# gazelle:exclude bazel-out
+# gazelle:exclude modules
+# gazelle:exclude workspace/*/bazel-*
+gazelle(
+    name = "gazelle",
+    data = GAZELLE_ERLANG_RUNTIME_DEPS,
+    gazelle = "@rules_erlang//gazelle:gazelle_erlang_binary",
+)
