@@ -1,0 +1,8 @@
+{
+    "integrity": "sha256-5BddwkCnDZlhVhYIkeHGIjjt4XKeRXQL3TgGTa1HYXA=",
+    "patch_strip": 0,
+    "patches": {
+        "add_build_file.patch": "sha256-ahGtop+APxxzsDDk21iYBwq+HahuMCBBwwmlUdDm/3E="
+    },
+    "url": "https://repo.hex.pm/tarballs/cowlib-2.9.1.tar"
+}
