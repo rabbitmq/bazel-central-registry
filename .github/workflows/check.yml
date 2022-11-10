@@ -5,6 +5,8 @@ on:
 jobs:
   select:
     runs-on: ubuntu-latest
+    outputs:
+      modules: ${{ steps.find.outputs.modules }}
     steps:
     - name: CHECKOUT
       uses: actions/checkout@v2
@@ -19,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        module: ${{ jobs.select.steps.find.outputs.modules }}
+        module: [${{ needs.select.outputs.modules }}]
     steps:
     - name: CONFIGURE ERLANG
       uses: erlef/setup-beam@v1
