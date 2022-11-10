@@ -32,7 +32,7 @@ jobs:
     - name: CREATE A PROJECT DEPENDING ON ${{ steps.find.outputs.module }}
       id: make-test-module
       run: |
-        MODULE="${{ steps.find.outputs.module }"
+        MODULE="${{ steps.find.outputs.module }}"
         NAME=${MODULE%@*}
         VERSION=${MODULE#*@}
 
