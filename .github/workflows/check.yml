@@ -14,23 +14,22 @@ jobs:
       id: find
       run: |
         modules="$(git diff --name-only erlang-packages -- modules/*/*/ | awk '{split($0, parts, "/"); print parts[2] "@" parts[3]}' | uniq)"
-        echo "modules=${modules}" >> $GITHUB_OUTPUT
-  check:
-    runs-on: ubuntu-latest
-    needs: select
-    strategy:
-      fail-fast: false
-      matrix:
-        module: [${{ needs.select.outputs.modules }}]
-    steps:
+        count="$(echo "${modules}" | wc -l)"
+
+        if [[ ${count} != 1 ]]; then
+          echo "PR modifies multiple modules and/or versions"
+          exit 1
+        fi
+
+        echo "module=${modules}" >> $GITHUB_OUTPUT
     - name: CONFIGURE ERLANG
       uses: erlef/setup-beam@v1
       with:
         otp-version: 25
-    - name: CREATE A PROJECT DEPENDING ON ${{ matrix.module }}
+    - name: CREATE A PROJECT DEPENDING ON ${{ steps.find.outputs.module }}
       id: make-test-module
       run: |
-        MODULE="${{ matrix.module }"
+        MODULE="${{ steps.find.outputs.module }"
         NAME=${MODULE%@*}
         VERSION=${MODULE#*@}
 
