@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [erlang-packages]
 jobs:
-  select:
+  check:
     runs-on: ubuntu-latest
     outputs:
       modules: ${{ steps.find.outputs.modules }}
@@ -16,6 +16,8 @@ jobs:
       id: find
       working-directory: bazel-central-registry
       run: |
+        git fetch origin erlang-packages
+
         modules="$(git diff --name-only erlang-packages -- modules/*/*/ | awk '{split($0, parts, "/"); print parts[2] "@" parts[3]}' | uniq)"
         count="$(echo "${modules}" | wc -l)"
 
@@ -60,6 +62,8 @@ jobs:
         build --registry=https://bcr.bazel.build/
         build --registry=file://${{ github.workspace }}/bazel-central-registry
         EOF
+
+        cat MODULE.bazel
     - name: BUILD
       working-directory: test_module
       run: |
