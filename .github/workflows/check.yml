@@ -1,0 +1,58 @@
+name: Check
+on:
+  pull_request:
+    branches: [erlang-packages]
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    steps:
+    - name: CHECKOUT
+      uses: actions/checkout@v2
+    - name: DETERMINE NEW MODULE VERSIONS IN THIS PR
+      id: find
+      run: |
+        modules="$(git diff --name-only erlang-packages -- modules/*/*/ | awk '{split($0, parts, "/"); print parts[2] "@" parts[3]}' | uniq)"
+        echo "modules=${modules}" >> $GITHUB_OUTPUT
+  check:
+    runs-on: ubuntu-latest
+    needs: select
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ jobs.select.steps.find.outputs.modules }}
+    steps:
+    - name: CONFIGURE ERLANG
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: 25
+    - name: CREATE A PROJECT DEPENDING ON ${{ matrix.module }}
+      id: make-test-module
+      run: |
+        MODULE="${{ matrix.module }"
+        NAME=${MODULE%@*}
+        VERSION=${MODULE#*@}
+
+        echo "name=${NAME}" >> $GITHUB_OUTPUT
+
+        touch WORKSPACE.bazel BUILD.bazel
+
+        cat << EOF > MODULE.bazel
+        module(
+          name = "${{ matrix.module }}_test",
+          version = "0.1.0",
+        )
+
+        bazel_dep(
+          name = "${NAME}",
+          version = "${VERSION}",
+        )
+        EOF
+
+        cat << EOF > .bazelrc
+        build --experimental_enable_bzlmod
+        build --registry=https://bcr.bazel.build/
+        build --registry=https://raw.githubusercontent.com/rabbitmq/bazel-central-registry/${{ github.event.pull_request.head.ref }}/
+        EOF
+    - name: BUILD
+      run: |
+        bazelisk build @${{ steps.make-test-module.outputs.name }}//...
