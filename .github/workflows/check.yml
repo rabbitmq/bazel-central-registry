@@ -10,8 +10,11 @@ jobs:
     steps:
     - name: CHECKOUT
       uses: actions/checkout@v2
+      with:
+        path: bazel-central-registry
     - name: DETERMINE NEW MODULE VERSIONS IN THIS PR
       id: find
+      working-directory: bazel-central-registry
       run: |
         modules="$(git diff --name-only erlang-packages -- modules/*/*/ | awk '{split($0, parts, "/"); print parts[2] "@" parts[3]}' | uniq)"
         count="$(echo "${modules}" | wc -l)"
@@ -35,11 +38,14 @@ jobs:
 
         echo "name=${NAME}" >> $GITHUB_OUTPUT
 
+        mkdir test_module
+        cd test_module
+
         touch WORKSPACE.bazel BUILD.bazel
 
         cat << EOF > MODULE.bazel
         module(
-          name = "${{ matrix.module }}_test",
+          name = "${NAME}_test",
           version = "0.1.0",
         )
 
@@ -52,8 +58,9 @@ jobs:
         cat << EOF > .bazelrc
         build --experimental_enable_bzlmod
         build --registry=https://bcr.bazel.build/
-        build --registry=https://raw.githubusercontent.com/rabbitmq/bazel-central-registry/${{ github.event.pull_request.head.ref }}/
+        build --registry=file://${{ github.workspace }}/bazel-central-registry
         EOF
     - name: BUILD
+      working-directory: test_module
       run: |
         bazelisk build @${{ steps.make-test-module.outputs.name }}//...
