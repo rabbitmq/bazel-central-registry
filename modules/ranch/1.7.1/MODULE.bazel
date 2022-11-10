@@ -1,0 +1,25 @@
+module(
+    name = "ranch",
+    version = "1.7.1",
+    compatibility_level = 1,
+)
+
+bazel_dep(
+    name = "rules_erlang",
+    version = "3.8.0",
+)
+
+erlang_config = use_extension(
+    "@rules_erlang//bzlmod:extensions.bzl",
+    "erlang_config",
+)
+
+use_repo(
+    erlang_config,
+    "erlang_config",
+)
+
+register_toolchains(
+    "@erlang_config//external:toolchain",
+    "@erlang_config//external:toolchain2",
+)

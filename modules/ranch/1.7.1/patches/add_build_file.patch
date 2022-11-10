@@ -1,0 +1,317 @@
+--- /dev/null
++++ BUILD.bazel
+@@ -0,0 +1,314 @@
++load("@rules_erlang//:erlang_bytecode2.bzl", "erlang_bytecode")
++load("@rules_erlang//:app_file.bzl", "app_file")
++load("@rules_erlang//:erlang_app_info.bzl", "erlang_app_info")
++load("@rules_erlang//:untar.bzl", "untar")
++
++untar(
++    name = "contents",
++    outs = [
++        "LICENSE",
++        "Makefile",
++        "README.asciidoc",
++        "erlang.mk",
++        "src/ranch.app.src",
++        "src/ranch.erl",
++        "src/ranch_acceptor.erl",
++        "src/ranch_acceptors_sup.erl",
++        "src/ranch_app.erl",
++        "src/ranch_conns_sup.erl",
++        "src/ranch_crc32c.erl",
++        "src/ranch_listener_sup.erl",
++        "src/ranch_protocol.erl",
++        "src/ranch_proxy_header.erl",
++        "src/ranch_server.erl",
++        "src/ranch_ssl.erl",
++        "src/ranch_sup.erl",
++        "src/ranch_tcp.erl",
++        "src/ranch_transport.erl",
++    ],
++    archive = "contents.tar.gz",
++)
++
++erlang_bytecode(
++    name = "beam_files_0",
++    srcs = ["src/ranch.erl"],
++    outs = ["ebin/ranch.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_1",
++    srcs = ["src/ranch_acceptor.erl"],
++    outs = ["ebin/ranch_acceptor.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_2",
++    srcs = ["src/ranch_acceptors_sup.erl"],
++    outs = ["ebin/ranch_acceptors_sup.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_3",
++    srcs = ["src/ranch_app.erl"],
++    outs = ["ebin/ranch_app.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_4",
++    srcs = ["src/ranch_conns_sup.erl"],
++    outs = ["ebin/ranch_conns_sup.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_5",
++    srcs = ["src/ranch_crc32c.erl"],
++    outs = ["ebin/ranch_crc32c.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_6",
++    srcs = ["src/ranch_listener_sup.erl"],
++    outs = ["ebin/ranch_listener_sup.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_7",
++    srcs = ["src/ranch_protocol.erl"],
++    outs = ["ebin/ranch_protocol.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_8",
++    srcs = ["src/ranch_proxy_header.erl"],
++    outs = ["ebin/ranch_proxy_header.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_9",
++    srcs = ["src/ranch_server.erl"],
++    outs = ["ebin/ranch_server.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_10",
++    srcs = ["src/ranch_ssl.erl"],
++    outs = ["ebin/ranch_ssl.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_11",
++    srcs = ["src/ranch_sup.erl"],
++    outs = ["ebin/ranch_sup.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_12",
++    srcs = ["src/ranch_tcp.erl"],
++    outs = ["ebin/ranch_tcp.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++erlang_bytecode(
++    name = "beam_files_13",
++    srcs = ["src/ranch_transport.erl"],
++    outs = ["ebin/ranch_transport.beam"],
++    erlc_opts = select({
++        "@rules_erlang//:debug_build": [
++            "+debug_info",
++        ],
++        "//conditions:default": [
++            "+debug_info",
++            "+deterministic",
++        ],
++    }),
++)
++
++app_file(
++    name = "app_file",
++    app_description = "Socket acceptor pool for TCP protocols.",
++    app_name = "ranch",
++    app_src = ["src/ranch.app.src"],
++    app_version = "1.7.1",
++    dest = "ebin",
++    modules = [
++        "ebin/ranch.beam",
++        "ebin/ranch_acceptor.beam",
++        "ebin/ranch_acceptors_sup.beam",
++        "ebin/ranch_app.beam",
++        "ebin/ranch_conns_sup.beam",
++        "ebin/ranch_crc32c.beam",
++        "ebin/ranch_listener_sup.beam",
++        "ebin/ranch_protocol.beam",
++        "ebin/ranch_proxy_header.beam",
++        "ebin/ranch_server.beam",
++        "ebin/ranch_ssl.beam",
++        "ebin/ranch_sup.beam",
++        "ebin/ranch_tcp.beam",
++        "ebin/ranch_transport.beam",
++    ],
++    stamp = 0,
++)
++
++erlang_app_info(
++    name = "ranch",
++    srcs = [
++        "src/ranch.app.src",
++        "src/ranch.erl",
++        "src/ranch_acceptor.erl",
++        "src/ranch_acceptors_sup.erl",
++        "src/ranch_app.erl",
++        "src/ranch_conns_sup.erl",
++        "src/ranch_crc32c.erl",
++        "src/ranch_listener_sup.erl",
++        "src/ranch_protocol.erl",
++        "src/ranch_proxy_header.erl",
++        "src/ranch_server.erl",
++        "src/ranch_ssl.erl",
++        "src/ranch_sup.erl",
++        "src/ranch_tcp.erl",
++        "src/ranch_transport.erl",
++    ],
++    hdrs = [],
++    app = ":app_file",
++    app_name = "ranch",
++    beam = [
++        "ebin/ranch.beam",
++        "ebin/ranch_acceptor.beam",
++        "ebin/ranch_acceptors_sup.beam",
++        "ebin/ranch_app.beam",
++        "ebin/ranch_conns_sup.beam",
++        "ebin/ranch_crc32c.beam",
++        "ebin/ranch_listener_sup.beam",
++        "ebin/ranch_protocol.beam",
++        "ebin/ranch_proxy_header.beam",
++        "ebin/ranch_server.beam",
++        "ebin/ranch_ssl.beam",
++        "ebin/ranch_sup.beam",
++        "ebin/ranch_tcp.beam",
++        "ebin/ranch_transport.beam",
++    ],
++    license_files = ["LICENSE"],
++    visibility = ["//visibility:public"],
++)
++
++alias(
++    name = "erlang_app",
++    actual = ":ranch",
++    visibility = ["//visibility:public"],
++)
