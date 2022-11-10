@@ -18,7 +18,7 @@ jobs:
       run: |
         git fetch origin erlang-packages
 
-        modules="$(git diff --name-only erlang-packages -- modules/*/*/ | awk '{split($0, parts, "/"); print parts[2] "@" parts[3]}' | uniq)"
+        modules="$(git diff --name-only origin/erlang-packages -- modules/*/*/ | awk '{split($0, parts, "/"); print parts[2] "@" parts[3]}' | uniq)"
         count="$(echo "${modules}" | wc -l)"
 
         if [[ ${count} != 1 ]]; then
