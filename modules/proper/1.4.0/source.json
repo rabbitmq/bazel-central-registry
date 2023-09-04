@@ -1,8 +1,0 @@
-{
-    "integrity": "sha256-GChYQhhb0z772pfRNKXLWgiEOE2zYRn+4OPPpIhWjLs=",
-    "patch_strip": 0,
-    "patches": {
-        "add_build_file.patch": "sha256-1A5ZrQCTkNmD9YMeAH6rSTa/uABLdu84zWAZQntnt/k="
-    },
-    "url": "https://repo.hex.pm/tarballs/proper-1.4.0.tar"
-}

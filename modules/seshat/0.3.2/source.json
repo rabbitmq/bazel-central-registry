@@ -1,8 +1,0 @@
-{
-    "integrity": "sha256-INggrL7vnQcpjuhj0MnQb45iCsuhAJOeuykl5Naw38c=",
-    "patch_strip": 0,
-    "patches": {
-        "add_build_file.patch": "sha256-efCuVFeVCRPos7arM5+wjU0el4IVYgnuYy/GWoyD4yo="
-    },
-    "url": "https://repo.hex.pm/tarballs/seshat-0.3.2.tar"
-}

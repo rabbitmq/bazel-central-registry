@@ -1,9 +1,0 @@
-module(
-    name = "ct_helper",
-    version = "2022.10.21",
-)
-
-bazel_dep(
-    name = "rules_erlang",
-    version = "3.8.3",
-)

@@ -1,8 +1,0 @@
-{
-    "integrity": "sha256-+bOt1HMaAqmwQQOYtHWzPnVmppU2Ujemve4btEdxn1w=",
-    "patch_strip": 0,
-    "patches": {
-        "add_build_file.patch": "sha256-ldM539XRVjQ9JM4nYf92XwRcUBJu8hl8liT412tFp/8="
-    },
-    "url": "https://repo.hex.pm/tarballs/base64url-1.0.1.tar"
-}

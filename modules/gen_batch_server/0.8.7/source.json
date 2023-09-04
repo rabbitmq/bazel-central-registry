@@ -1,8 +1,0 @@
-{
-    "integrity": "sha256-lKSaUoSGKYsAnSobRSEywKDWiz6J0X03ZMseyHm3VXo=",
-    "patch_strip": 0,
-    "patches": {
-        "add_build_file.patch": "sha256-Uh7VL5X++6ntseg5wS84AQf6yRiAgAz0V5iSMN0b07E="
-    },
-    "url": "https://repo.hex.pm/tarballs/gen_batch_server-0.8.7.tar"
-}

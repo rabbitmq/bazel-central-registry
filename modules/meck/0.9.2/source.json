@@ -1,8 +1,0 @@
-{
-    "integrity": "sha256-gTRPVhNX3ECoNEr6U3Z8MmaRUzVbYm6p/LyNprMEWCY=",
-    "patch_strip": 0,
-    "patches": {
-        "add_build_file.patch": "sha256-+yvENSK3tNb/MeAdiS+l9ZpNBQ3sC8EvdnwDu2BqyRU="
-    },
-    "url": "https://repo.hex.pm/tarballs/meck-0.9.2.tar"
-}

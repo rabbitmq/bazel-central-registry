@@ -1,9 +1,0 @@
-{
-    "integrity": "sha256-OKO7MeaE4ntThjVVa1SruMA7x1X9LLjddmFxiLRfYzE=",
-    "patch_strip": 0,
-    "patches": {
-        "add_build_file.patch": "sha256-Tjxr9GisFgI+ZXXy1UI15doMnz0+D/88DWK5TJnzdCY="
-    },
-    "strip_prefix": "ct_helper-478aa272708ed4ad282ca02bed41a5320330e8af",
-    "url": "https://github.com/ninenines/ct_helper/archive/478aa272708ed4ad282ca02bed41a5320330e8af.zip"
-}
