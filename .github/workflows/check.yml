@@ -58,7 +58,7 @@ jobs:
         EOF
 
         cat << EOF > .bazelrc
-        build --experimental_enable_bzlmod
+        build --enable_bzlmod
         build --registry=https://bcr.bazel.build/
         build --registry=file://${{ github.workspace }}/bazel-central-registry
         EOF
@@ -67,4 +67,5 @@ jobs:
     - name: BUILD
       working-directory: test_module
       run: |
-        bazelisk build @${{ steps.make-test-module.outputs.name }}//...
+        bazelisk build \
+          @${{ steps.make-test-module.outputs.name }}//:erlang_app
