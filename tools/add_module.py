@@ -16,7 +16,7 @@
 # pylint: disable=invalid-name
 # pylint: disable=line-too-long
 # pylint: disable=missing-function-docstring
-"""An interative script to add modules into a Bazel registry.
+"""An interactive script to add modules into a Bazel registry.
 
 What this script can do:
   - Initialize the Bazel Registry.
@@ -25,7 +25,7 @@ What this script can do:
   - Generate MODULE.bazel file with given module information
     - module name
     - version
-    - compatiblity level
+    - compatibility level
     - dependencies
   - Generate the source.json file with given source information
     - The archive url
@@ -37,12 +37,15 @@ What this script can do:
 """
 
 import argparse
+import os
 import sys
 import time
 
 from registry import Module
 from registry import RegistryClient
 from registry import log
+
+import bcr_validation
 
 
 YELLOW = "\x1b[33m"
@@ -197,11 +200,21 @@ def main(argv=None):
     homepage = ask_input(
         "Please enter the homepage url for this module: ").strip()
     maintainers = get_maintainers_from_input()
-    client.init_module(module.name, maintainers, homepage)
+    source_repository = ""
+    if module.url.startswith("https://github.com/"):
+      parts = module.url.split("/")
+      source_repository = "github:" + parts[3] + "/" + parts[4]
+    client.init_module(module.name, maintainers, homepage, source_repository)
 
   client.add(module, override=True)
   log(f"{module.name} {module.version} is added into the registry.")
 
+  log(f"Running ./tools/bcr_validation.py --check={module.name}@{module.version} --fix")
+  bcr_validation.main([f"--check={module.name}@{module.version}", "--fix"])
+
 
 if __name__ == "__main__":
+  # Under 'bazel run' we want to run within the source folder instead of the execroot.
+  if os.getenv("BUILD_WORKSPACE_DIRECTORY"):
+    os.chdir(os.getenv("BUILD_WORKSPACE_DIRECTORY"))
   sys.exit(main())

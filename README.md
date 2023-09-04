@@ -1,56 +1,21 @@
 # Bazel Central Registry
 
-**Status:** This repository is in beta test phase, feel free to submit your project as Bazel module. During the test phase, checked in modules may still change without any notice.
+## Overview
 
-## Goal
-A registry of Bazel modules for the Bzlmod external dependency system. It is the recommended Bazel registry to publish your Bazel open source projects for downstream users.
+The default Bazel registry for the Bzlmod external dependency system of Bazel. It is the recommended place to find and publish your favorite Bazel projects. Visit https://registry.bazel.build to check what modules are already available!
 
-For more information, see the [Bazel Central Registry Policies and Procedures](https://docs.google.com/document/d/1ReuBBp4EHnsuvcpfXM6ITDmP2lrOu8DGlePMUKvDnXM/edit?usp=sharing).
+## Contributing
 
-## Roles
+To contribute, check our [BCR  policies](docs/bcr-policies.md) and [contribution guidelines](docs/README.md).
 
-### Module Contributor
+## Depending on the BCR infrastructure (and how not to)
 
-A person who contributes a Bazel module entry to this registry is a module contributor.
+The core infrastructure of the Bazel Central Registry depends on Github and Google Cloud. Bazel users who enable Bzlmod depend on the BCR by default.
+While we try to keep the BCR infrastructure simple and reliable, we assume no liability for any damages caused by build failures due to potential BCR infrastructure failures.
 
-To contribute a Bazel module, you can start with the interactive helper script:
-```
-python3 ./tools/add_module.py
-```
+If you consider it necessary, you can do the following to avoid depending on the BCR infrastructure while still making use of the information checked into the BCR.
 
-### Module Maintainer
-
-A person who maintains a specific module entry in this registry is a module maintainer. The name and contact information of the module maintainers are recorded in the metadata.json file for each module.
-
-**Note that**, a module maintainer doesn't have to be the project owner. Ideally, we prefer the project owner to maintain the module entry, as they know the project the best. But if the project owner is not maintaining the entry, a Bazel user who is interested in making the project available in this registry could also take on the responsibility.
-
-Being a module maintainer means:
-
-  - You will be asked to review future changes of this module entry. For example, a PR for adding a new version for this module.
-  - You will be asked for help when a new version of the module is required by users.
-  - You should maintain [the compatibility](https://docs.google.com/document/d/1ReuBBp4EHnsuvcpfXM6ITDmP2lrOu8DGlePMUKvDnXM/edit#heading=h.d7dl8s7vxf63) for this module when necessary.
-
-To become a module maintainer, send a PR to add yourself as a maintainer in the metadata.json file of the module you want to maintain.
-
-### Registry Maintainer
-
-Currently, the Bazel team is the registry maintainer, who are responsible for:
-
-  - Review and merge PRs for this repository.
-  - Maintain testing and serving infrastructures for the Bazel Central Registry.
-
-## presubmit.yml
-
-We require every module version to have a `presubmit.yml` file for configuring the presubmit tests to verify the integrity of the module.
-
-In the `presubmit.yml` file:
-
-  - You should specify the list of build targets that you want to expose to downstream users.
-  - It's highly recommended to have a [test module](https://github.com/bazelbuild/continuous-integration/issues/1302) in your source archive.
-  - In general, you should NOT specify unit tests or test suites focusing on implementation details in this file.
-
-The presubmit.yml file will be used for:
-
-  - [Presubmit test](https://docs.google.com/document/d/1ReuBBp4EHnsuvcpfXM6ITDmP2lrOu8DGlePMUKvDnXM/edit#heading=h.1o9h5yrz477i) when checking in the module version
-  - [Downstream test](https://docs.google.com/document/d/1ReuBBp4EHnsuvcpfXM6ITDmP2lrOu8DGlePMUKvDnXM/edit#heading=h.c7d1a4rk6dvj) for dependencies of this module
-  - [Bazel compatiblity test](https://docs.google.com/document/d/1ReuBBp4EHnsuvcpfXM6ITDmP2lrOu8DGlePMUKvDnXM/edit#heading=h.vp6y2sd6hujz)
+- Clone the BCR repository or mirror the content to your own infrastructure and use the [--registry](https://bazel.build/reference/command-line-reference#flag--registry) option to change the default Bazel registry to your own.
+- Host your own mirror for all source archive URLs and add the mirror URL in `./bazel_registry.json`.
+  You can run `bazel run //tools:print_all_src_urls` to get the list of source URLs to mirror for all Bazel modules checked into the BCR.
+  For example, `https://foo.com/bar.zip` should be mirrored to `https://<your mirror>/foo.com/bar.zip`.
