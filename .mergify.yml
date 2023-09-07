@@ -1,0 +1,9 @@
+pull_request_rules:
+  - name: Automatic merge on checks passed (erlang-packages)
+    conditions:
+      - base=erlang-packages
+      - check-success=lint
+      - check-success=check
+    actions:
+      merge:
+        method: rebase
