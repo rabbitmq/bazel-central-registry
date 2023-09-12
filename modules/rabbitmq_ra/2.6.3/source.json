@@ -1,0 +1,9 @@
+{
+    "url": "https://github.com/rabbitmq/ra/releases/download/v2.6.3/ra-2.6.3.tar.gz",
+    "integrity": "sha256-gybNMwGnLzMx7oilUskC9/hakvZxH3YVM3TgFM6Tv1o=",
+    "strip_prefix": "ra-2.6.3",
+    "patches": {
+        "module_name_version.patch": "sha256-Y/2SHsqKEA0s4SnMjaK47KjyoWhceeR13qWr4hyiu1Y="
+    },
+    "patch_strip": 0
+}
