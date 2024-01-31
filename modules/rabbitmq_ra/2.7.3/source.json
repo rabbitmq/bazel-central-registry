@@ -1,0 +1,5 @@
+{
+    "url": "https://github.com/rabbitmq/ra/releases/download/v2.7.3/ra-2.7.3.tar.gz",
+    "integrity": "sha256-ltg5bQ6znYcnPolM5PchSMLBstJGxU2flaF1UyvzrrI=",
+    "strip_prefix": "ra-2.7.3"
+}

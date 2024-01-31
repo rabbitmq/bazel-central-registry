@@ -1383,12 +1383,13 @@
               "name": "apple_support~1.5.0~apple_cc_configure_extension~local_config_apple_cc_toolchains"
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": []
       }
     },
     "@@bazel_tools//tools/cpp:cc_configure.bzl%cc_configure_extension": {
       "general": {
-        "bzlTransitiveDigest": "O9sf6ilKWU9Veed02jG9o2HM/xgV/UAyciuFBuxrFRY=",
+        "bzlTransitiveDigest": "mcsWHq3xORJexV5/4eCvNOLxFOQKV6eli3fkr+tEaqE=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -1406,7 +1407,14 @@
               "name": "bazel_tools~cc_configure_extension~local_config_cc_toolchains"
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "bazel_tools",
+            "bazel_tools",
+            "bazel_tools"
+          ]
+        ]
       }
     },
     "@@bazel_tools//tools/osx:xcode_configure.bzl%xcode_configure_extension": {
@@ -1424,7 +1432,8 @@
               "remote_xcode": ""
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": []
       }
     },
     "@@bazel_tools//tools/sh:sh_configure.bzl%sh_configure_extension": {
@@ -1440,7 +1449,8 @@
               "name": "bazel_tools~sh_configure_extension~local_config_sh"
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": []
       }
     },
     "@@rules_erlang~3.11.4//bzlmod:extensions.bzl%erlang_config": {
@@ -1466,12 +1476,13 @@
               "post_configure_cmdss": {}
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": []
       }
     },
     "@@rules_go~0.39.0//go:extensions.bzl%go_sdk": {
       "general": {
-        "bzlTransitiveDigest": "7fQUua4Wk/VNrF7nSx1RUvq1ofgjd+0ITKFX9X2F0Us=",
+        "bzlTransitiveDigest": "Fh4MzGpufI/lWNk57hLxSAY5jqJLh9cvQ0NXzgsWnbk=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -1514,12 +1525,19 @@
               ]
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "rules_go~0.39.0",
+            "bazel_tools",
+            "bazel_tools"
+          ]
+        ]
       }
     },
     "@@rules_java~7.1.0//java:extensions.bzl%toolchains": {
       "general": {
-        "bzlTransitiveDigest": "iUIRqCK7tkhvcDJCAfPPqSd06IHG0a8HQD0xeQyVAqw=",
+        "bzlTransitiveDigest": "D02GmifxnV/IhYgspsJMDZ/aE8HxAjXgek5gi6FSto4=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -2054,12 +2072,24 @@
               "build_file": "\nconfig_setting(\n    name = \"prefix_version_setting\",\n    values = {\"java_runtime_version\": \"remotejdk_21\"},\n    visibility = [\"//visibility:private\"],\n)\nconfig_setting(\n    name = \"version_setting\",\n    values = {\"java_runtime_version\": \"21\"},\n    visibility = [\"//visibility:private\"],\n)\nalias(\n    name = \"version_or_prefix_version_setting\",\n    actual = select({\n        \":version_setting\": \":version_setting\",\n        \"//conditions:default\": \":prefix_version_setting\",\n    }),\n    visibility = [\"//visibility:private\"],\n)\ntoolchain(\n    name = \"toolchain\",\n    target_compatible_with = [\"@platforms//os:windows\", \"@platforms//cpu:x86_64\"],\n    target_settings = [\":version_or_prefix_version_setting\"],\n    toolchain_type = \"@bazel_tools//tools/jdk:runtime_toolchain_type\",\n    toolchain = \"@remotejdk21_win//:jdk\",\n)\ntoolchain(\n    name = \"bootstrap_runtime_toolchain\",\n    # These constraints are not required for correctness, but prevent fetches of remote JDK for\n    # different architectures. As every Java compilation toolchain depends on a bootstrap runtime in\n    # the same configuration, this constraint will not result in toolchain resolution failures.\n    exec_compatible_with = [\"@platforms//os:windows\", \"@platforms//cpu:x86_64\"],\n    target_settings = [\":version_or_prefix_version_setting\"],\n    toolchain_type = \"@bazel_tools//tools/jdk:bootstrap_runtime_toolchain_type\",\n    toolchain = \"@remotejdk21_win//:jdk\",\n)\n"
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "rules_java~7.1.0",
+            "bazel_tools",
+            "bazel_tools"
+          ],
+          [
+            "rules_java~7.1.0",
+            "remote_java_tools",
+            "rules_java~7.1.0~toolchains~remote_java_tools"
+          ]
+        ]
       }
     },
     "@@rules_python~0.17.3//python:extensions.bzl%internal_deps": {
       "general": {
-        "bzlTransitiveDigest": "IpRZ8GdsA1ftOEkwREGnSpmR2Ws/6y56HiHpeOfcwA0=",
+        "bzlTransitiveDigest": "T44fkyYfRd9VH6xtrrF2XaOt/L8XNIDcbcRYB++/4cc=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -2217,12 +2247,29 @@
               "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:defs.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude in /python/pip_install/tools/bazel.py\n        # to avoid non-determinism following pip install's behavior.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/* *\",\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "rules_python~0.17.3",
+            "bazel_skylib",
+            "bazel_skylib~1.4.1"
+          ],
+          [
+            "rules_python~0.17.3",
+            "bazel_tools",
+            "bazel_tools"
+          ],
+          [
+            "rules_python~0.17.3",
+            "rules_python",
+            "rules_python~0.17.3"
+          ]
+        ]
       }
     },
     "@@rules_python~0.17.3//python:extensions.bzl%pip": {
       "general": {
-        "bzlTransitiveDigest": "IpRZ8GdsA1ftOEkwREGnSpmR2Ws/6y56HiHpeOfcwA0=",
+        "bzlTransitiveDigest": "T44fkyYfRd9VH6xtrrF2XaOt/L8XNIDcbcRYB++/4cc=",
         "accumulatedFileDigests": {
           "@@//tools:requirements_lock.txt": "1f39b16f3b6f9cf9eca12b20568fdf553810a1ba40a2168de78a28ebc503fc4e"
         },
@@ -2298,12 +2345,29 @@
               "environment": {}
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "rules_python~0.17.3",
+            "bazel_skylib",
+            "bazel_skylib~1.4.1"
+          ],
+          [
+            "rules_python~0.17.3",
+            "bazel_tools",
+            "bazel_tools"
+          ],
+          [
+            "rules_python~0.17.3",
+            "rules_python",
+            "rules_python~0.17.3"
+          ]
+        ]
       }
     },
     "@@rules_python~0.17.3//python:extensions.bzl%python": {
       "general": {
-        "bzlTransitiveDigest": "IpRZ8GdsA1ftOEkwREGnSpmR2Ws/6y56HiHpeOfcwA0=",
+        "bzlTransitiveDigest": "T44fkyYfRd9VH6xtrrF2XaOt/L8XNIDcbcRYB++/4cc=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -2401,7 +2465,24 @@
               "user_repository_name": "python3"
             }
           }
-        }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "rules_python~0.17.3",
+            "bazel_skylib",
+            "bazel_skylib~1.4.1"
+          ],
+          [
+            "rules_python~0.17.3",
+            "bazel_tools",
+            "bazel_tools"
+          ],
+          [
+            "rules_python~0.17.3",
+            "rules_python",
+            "rules_python~0.17.3"
+          ]
+        ]
       }
     }
   }
