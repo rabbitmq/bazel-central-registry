@@ -1,0 +1,5 @@
+{
+    "url": "https://github.com/rabbitmq/lz4-erlang/releases/download/v1.9.4.1/lz4-erlang-1.9.4.1.tar.gz",
+    "integrity": "sha256-eizAPHSWVAdiPWHXtTtjm8fSprATG/6U1EyDoQweqlI=",
+    "strip_prefix": "lz4-erlang-1.9.4.1"
+}
