@@ -2,7 +2,7 @@
     "homepage": "https://github.com/rabbitmq/looking_glass",
     "maintainers": [
         {
-            "email": "kuryloskip@vmware.com",
+            "email": "rin.kuryloski@broadcom.com",
             "github": "pjk25",
             "name": "Rin Kuryloski"
         }
@@ -11,7 +11,8 @@
         "github:rabbitmq/looking_glass"
     ],
     "versions": [
-        "0.2.1"
+        "0.2.1",
+        "0.2.2"
     ],
     "yanked_versions": {}
 }
