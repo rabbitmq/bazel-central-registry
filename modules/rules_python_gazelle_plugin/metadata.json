@@ -2,14 +2,14 @@
     "homepage": "https://github.com/bazelbuild/rules_python",
     "maintainers": [
         {
-            "name": "Richard Levasseur",
             "email": "rlevasseur@google.com",
-            "github": "rickeylev"
+            "github": "rickeylev",
+            "name": "Richard Levasseur"
         },
         {
-            "name": "Thulio Ferraz Assis",
             "email": "thulio@aspect.dev",
-            "github": "f0rmiga"
+            "github": "f0rmiga",
+            "name": "Thulio Ferraz Assis"
         }
     ],
     "repository": [
@@ -20,7 +20,13 @@
         "0.22.0",
         "0.23.1",
         "0.24.0",
-        "0.25.0"
+        "0.25.0",
+        "0.26.0",
+        "0.27.0",
+        "0.27.1",
+        "0.29.0",
+        "0.30.0",
+        "0.31.0"
     ],
     "yanked_versions": {}
 }
