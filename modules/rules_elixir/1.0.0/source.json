@@ -1,0 +1,5 @@
+{
+    "url": "https://github.com/rabbitmq/rules_elixir/releases/download/v1.0.0/rules_elixir-1.0.0.tar.gz",
+    "integrity": "sha256-diOCDsm4zGPGtp0X1DFZSqKQrL9D3bv5XTJlDs3tM1E=",
+    "strip_prefix": "rules_elixir-1.0.0"
+}
