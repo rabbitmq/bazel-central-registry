@@ -1,0 +1,5 @@
+{
+    "url": "https://github.com/rabbitmq/osiris/releases/download/v1.8.4/osiris-1.8.4.tar.gz",
+    "integrity": "sha256-FlRLl6qAi8aHM4YbZpbGAi5SGXvs/an95YwIQGHvJuc=",
+    "strip_prefix": "osiris-1.8.4"
+}
